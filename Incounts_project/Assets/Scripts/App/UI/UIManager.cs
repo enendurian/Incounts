@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
 
     public AccountListUI accountListUI;
     public AddAccountUI addAccountUI;
+    public WalletListUI walletListUI;
+    public AddWalletUI addWalletUI;
 
     public void Awake()
     {

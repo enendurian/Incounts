@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using AppConst;
 using UnityEngine;
-using System.Linq;
 using UnityEngine.UI;
+using Mono.Data.Sqlite;
+using System;
 
 public class AccountListUI : MonoBehaviour
 {
@@ -15,11 +15,11 @@ public class AccountListUI : MonoBehaviour
     public RectTransform accountPanel;
     public RectTransform rectContent;
     public RectTransform rectPoolParent;
+    public RectTransform emptyPanel;
     public Text yearText;
     public Text monthText;
     public Text mainBalanceText;
 
-    private List<SingleDayAccounts> currentShowingAccounts;     //日子的列表，便是月份了
     private int rectHeightCalculate;
     private readonly List<GameObject> objectShowing = new();
 
@@ -39,13 +39,76 @@ public class AccountListUI : MonoBehaviour
     {
         ClearShowingObjects();
         ResetRectHeightCalculate();
-        currentShowingAccounts = DataManager.Instance.GetCurrentMonthAccounts();
-        for (int i = 0; i < currentShowingAccounts.Count; i++)
+        DataManager.Instance.TraverseAllRecords(ShowAllListItems);
+        RefreshBalanceText();
+    }
+
+    private void ShowAllListItems(SqliteDataReader reader)
+    {
+        int lastday = -1;
+        int temp_income = 0;
+        int temp_outgo = 0;
+        ItemDate temp_dateItem = null;
+        emptyPanel.gameObject.SetActive(false);
+
+        while (reader.Read())
         {
-            ShowOneDay(currentShowingAccounts[i]);
+            int dayRead = reader.GetInt32(2);
+            //是新日期，先增加横幅
+            if (lastday < dayRead)
+            {
+                lastday = dayRead;
+                if (temp_dateItem != null)
+                {
+                    temp_dateItem.sumAccountText.text = $"<color={BasicConsts.incomeColor}>+{temp_income}</color> <color={BasicConsts.outgoColor}>-{temp_outgo}</color>";
+                }
+                temp_dateItem = ShowNewDay(dayRead);
+                temp_income = 0;
+                temp_outgo = 0;
+            }
+            //增加账目
+            int isOut = reader.GetInt32(3);
+            int count = reader.GetInt32(4);
+            ShowNewAccount(reader.GetInt32(0), reader.GetString(1), isOut, count, reader.GetString(6));
+            if (isOut <= 0)
+                temp_outgo += count;
+            else
+                temp_income += count;
+        }
+
+        //再刷新一下最后一天的总收支数据
+        if (temp_dateItem != null)
+        {
+            temp_dateItem.sumAccountText.text = $"<color={BasicConsts.incomeColor}>+{temp_income}</color> <color={BasicConsts.outgoColor}>-{temp_outgo}</color>";
+        }
+        else
+        {
+            //没有最后一天的数据说明一天的数据都没有
+            emptyPanel.gameObject.SetActive(true);
         }
         rectContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeightCalculate);
-        RefreshBalanceText();
+    }
+
+    private ItemDate ShowNewDay(int day)
+    {
+        GameObject dateObject = GetFromPoolOrDefault(datePool, itemDate);
+        dateObject.transform.SetParent(rectContent);
+        rectHeightCalculate += AccountListConst.Height_Date + AccountListConst.Height_Spacing;
+        ItemDate idate = dateObject.GetComponent<ItemDate>();
+        DateTime date = new(DataManager.Instance.currentShowingYear, DataManager.Instance.currentShowingMonth, day);
+        DayOfWeek dayOfWeek = date.DayOfWeek;
+        idate.dateText.text = $"{day} {BasicConsts.WeekDays[(int)dayOfWeek]}";
+        dateObject.SetActive(true);
+        return idate;
+    }
+
+    private void ShowNewAccount(int pKey, string title, int isOut, int count, string iconUrl)
+    {
+        GameObject account = GetFromPoolOrDefault(accountPool, itemAccounts);
+        account.transform.SetParent(rectContent);
+        rectHeightCalculate += AccountListConst.Height_Account + AccountListConst.Height_Spacing;
+        account.GetComponent<ItemAccount>().RefreshAccountData(pKey, title, isOut, count, iconUrl);
+        account.SetActive(true);
     }
 
     /// <summary>
@@ -53,8 +116,8 @@ public class AccountListUI : MonoBehaviour
     /// </summary>
     public void AddSingleAccountOnLatest()
     {
-        currentShowingAccounts = DataManager.Instance.GetCurrentMonthAccounts();
-        AddSingleAccount(currentShowingAccounts.Last().accounts.Last());
+        //currentShowingAccounts = DataManager.Instance.GetCurrentMonthAccounts();
+        //AddSingleAccount(currentShowingAccounts.Last().accounts.Last());
         rectHeightCalculate += AccountListConst.Height_Account + AccountListConst.Height_Spacing;
         rectContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeightCalculate);
         RefreshBalanceText();
@@ -65,36 +128,15 @@ public class AccountListUI : MonoBehaviour
         rectHeightCalculate = AccountListConst.Height_Blank;
     }
 
-    private void ShowOneDay(SingleDayAccounts singleDay)
-    {
-        GameObject dateObject = GetFromPoolOrDefault(datePool, itemDate);
-        dateObject.transform.SetParent(rectContent);
-        rectHeightCalculate += AccountListConst.Height_Date + AccountListConst.Height_Spacing;
-        dateObject.GetComponent<ItemDate>().RefreshDateData(singleDay);
-
-        for (int i = 0; i < singleDay.accounts.Count; i++)
-        {
-            AddSingleAccount(singleDay.accounts[i]);
-        }
-    }
-
-    private void AddSingleAccount(SingleAccount sa)
-    {
-        GameObject account = GetFromPoolOrDefault(accountPool, itemAccounts);
-        account.transform.SetParent(rectContent);
-        rectHeightCalculate += AccountListConst.Height_Account + AccountListConst.Height_Spacing;
-        account.GetComponent<ItemAccount>().RefreshAccountData(sa);
-    }
-
     public void RefreshYearAndMonth()
     {
-        yearText.text = $"{DataManager.Instance.CurrentDataConfig.year}";
+        yearText.text = $"{DataManager.Instance.currentShowingYear}";
         monthText.text = DataManager.Instance.currentShowingMonth.ToString("D2");
     }
 
     public void RefreshBalanceText()
     {
-        mainBalanceText.text = $"总余额：{DataManager.Instance.GetRemains()}";
+        mainBalanceText.text = $"总余额：{DataManager.Instance.GetWalletRemains()}";
     }
 
     #region Object pool

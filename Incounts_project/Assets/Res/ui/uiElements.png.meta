@@ -229,7 +229,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 8, y: 8, z: 8, w: 8}
       outline: []
       physicsShape: []
@@ -237,6 +237,48 @@ TextureImporter:
       bones: []
       spriteID: dddee36d2fb30af4f94a1d6164f1a37d
       internalID: 988996054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiElements_arrow
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 43
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3e2f5c18e5db5843aaa194629c9ae1f
+      internalID: 423508271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiElements_change
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 12
+        width: 31
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61caad35d6980b64ba87800c0318ed6c
+      internalID: 913123068
       vertices: []
       indices: 
       edges: []
@@ -253,9 +295,11 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       uiElements_frame: 5558952
+      uiElements_arrow: 423508271
       uiElements_line: -1828598515
       uiElements_bg2: 988996054
       uiElements_add: 1600562520
+      uiElements_change: 913123068
       uiElements_bg: -732806077
       uiElements_barbg: 1174632888
   spritePackingTag: 

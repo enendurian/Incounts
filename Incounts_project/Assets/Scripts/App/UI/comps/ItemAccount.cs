@@ -15,7 +15,7 @@ public class ItemAccount : MonoBehaviour
     public Text typeText;
     public CanvasGroup messageCanvasGroup;
 
-    private SingleAccount sa;
+    private int primaryKey;
 
     private bool ispoened = false;
 
@@ -25,12 +25,13 @@ public class ItemAccount : MonoBehaviour
     public float transformTimeGap = 0.5f;
     #endregion
 
-    public void RefreshAccountData(SingleAccount accountData)
+    public void RefreshAccountData(int pKey, string title, int isOut, int count, string iconUrl)
     {
-        sa = accountData;
-        titleText.text = sa.title;
-        string head = sa.isOut ? $"{BasicConsts.outgoColor}-" : $"{BasicConsts.incomeColor}+";
-        countText.text = $"{head}{sa.count}</color>";
+        primaryKey = pKey;
+        titleText.text =title;
+        string head = isOut<=0 ? $"<color={BasicConsts.outgoColor}>-" : $"<color={BasicConsts.incomeColor}>+";
+        countText.text = $"{head}{count}</color>";
+        Debug.Log(countText.text);
     }
 
     public void OnItemClicked()
@@ -55,18 +56,15 @@ public class ItemAccount : MonoBehaviour
     IEnumerator ShowDetails()
     {
         float timeCount = 0;
-        if (sa != null)
-        { 
-            messageText.text = sa.message;
-            typeText.text = BasicConsts.TypeNames[(int)sa.type];
-        }
+
+        DataManager.Instance.ShowDetailsOfAccount(this, primaryKey);
         while (timeCount <= transformTimeGap)
         {
             yield return null;
             timeCount += Time.deltaTime;
             float progress = timeCount / transformTimeGap;
             thisTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Lerp(thisTransform.rect.height, aimShowingHeight, progress));
-            messageCanvasGroup.alpha = Mathf.Lerp(0, 1, progress);
+            messageCanvasGroup.alpha = Mathf.Lerp(messageCanvasGroup.alpha, 1, progress);
         }
     }
 
@@ -79,7 +77,7 @@ public class ItemAccount : MonoBehaviour
             timeCount += Time.deltaTime;
             float progress = timeCount / transformTimeGap;
             thisTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Lerp(thisTransform.rect.height, originalHeight, progress));
-            messageCanvasGroup.alpha = Mathf.Lerp(1, 0, progress);
+            messageCanvasGroup.alpha = Mathf.Lerp(messageCanvasGroup.alpha, 0, progress);
         }
         HardReset();
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AppConst;
 
@@ -19,6 +20,15 @@ public class AccountDataConfig
             accountsInMonths[month] = accountsOfDay;
         }
         return accountsInMonths[month];
+    }
+
+    public AccountDataConfig()
+    {
+        DateTime now = DateTime.Now;
+        year = now.Year;
+        List<SingleDayAccounts> nowList = new List<SingleDayAccounts>();
+        nowList.Add(new SingleDayAccounts(now.Day, (int)now.DayOfWeek));
+        accountsInMonths.Add(now.Month, nowList);
     }
 }
 
@@ -44,6 +54,12 @@ public class SingleDayAccounts
             }
         }
         return (income, outgo);
+    }
+
+    public SingleDayAccounts(int day,int week)
+    {
+        this.date = day;
+        this.dayOfweek = week;
     }
 }
 
