@@ -1,36 +1,32 @@
 using System.Collections;
+using System.Collections.Generic;
 using AppConst;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemAccount : MonoBehaviour
+public class ItemWallet : MonoBehaviour
 {
     [Header("UIElements")]
-    public Text titleText;
-    public Text countText;
-    public Image icon;
+    public Text nameText;
+    public Text balanceText;
     public RectTransform thisTransform;
-    public RectTransform messageBg;
-    public Text messageText;
-    public Text typeText;
-    public CanvasGroup messageCanvasGroup;
+    public CanvasGroup editCanvasGroup;
 
     private int primaryKey;
 
     private bool ispoened = false;
 
     #region settings
-    public int originalHeight = AccountListConst.Height_Account;
-    public int aimShowingHeight = 400;
+    public int originalHeight =WalletListConst.Height_Wallet;
+    public int aimShowingHeight = 260;
     public float transformTimeGap = 0.5f;
     #endregion
 
-    public void RefreshAccountData(int pKey, string title, int isOut, int count, string iconUrl)
+    public void RefreshWalletData(int pKey, string name, long balance)
     {
         primaryKey = pKey;
-        titleText.text =title;
-        string head = isOut<=0 ? $"<color={BasicConsts.outgoColor}>-" : $"<color={BasicConsts.incomeColor}>+";
-        countText.text = $"{head}{count}</color>";
+        nameText.text = name;
+        balanceText.text = $"{balance}";
     }
 
     public void OnItemClicked()
@@ -55,15 +51,13 @@ public class ItemAccount : MonoBehaviour
     IEnumerator ShowDetails()
     {
         float timeCount = 0;
-
-        DataManager.Instance.ShowDetailsOfAccount(this, primaryKey);
         while (timeCount <= transformTimeGap)
         {
             yield return null;
             timeCount += Time.deltaTime;
             float progress = timeCount / transformTimeGap;
             thisTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Lerp(thisTransform.rect.height, aimShowingHeight, progress));
-            messageCanvasGroup.alpha = Mathf.Lerp(messageCanvasGroup.alpha, 1, progress);
+            editCanvasGroup.alpha = Mathf.Lerp(editCanvasGroup.alpha, 1, progress);
         }
     }
 
@@ -76,7 +70,7 @@ public class ItemAccount : MonoBehaviour
             timeCount += Time.deltaTime;
             float progress = timeCount / transformTimeGap;
             thisTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Lerp(thisTransform.rect.height, originalHeight, progress));
-            messageCanvasGroup.alpha = Mathf.Lerp(messageCanvasGroup.alpha, 0, progress);
+            editCanvasGroup.alpha = Mathf.Lerp(editCanvasGroup.alpha, 0, progress);
         }
         HardReset();
     }
@@ -87,7 +81,7 @@ public class ItemAccount : MonoBehaviour
     public void HardReset()
     {
         thisTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, originalHeight);
-        messageCanvasGroup.alpha = 0;
+        editCanvasGroup.alpha = 0;
     }
 
     private void ListenClick()

@@ -5,14 +5,13 @@ using UnityEngine.UI;
 using Mono.Data.Sqlite;
 using System;
 
-public class AccountListUI : MonoBehaviour
+public class AccountListUI : UIPagesBase
 {
     [Header("prefabs")]
     public GameObject itemDate;
     public GameObject itemAccounts;
 
     [Header("UIelements")]
-    public RectTransform accountPanel;
     public RectTransform rectContent;
     public RectTransform rectPoolParent;
     public RectTransform emptyPanel;
@@ -26,7 +25,7 @@ public class AccountListUI : MonoBehaviour
     private readonly Stack<GameObject> accountPool = new();
     private readonly Stack<GameObject> datePool = new();
 
-    public void RefreshAllUI()
+    public override void RefreshAllUI()
     {
         RefreshYearAndMonth();
         RefreshListItems();
@@ -98,6 +97,7 @@ public class AccountListUI : MonoBehaviour
         DateTime date = new(DataManager.Instance.currentShowingYear, DataManager.Instance.currentShowingMonth, day);
         DayOfWeek dayOfWeek = date.DayOfWeek;
         idate.dateText.text = $"{day} {BasicConsts.WeekDays[(int)dayOfWeek]}";
+        objectShowing.Add(dateObject);
         dateObject.SetActive(true);
         return idate;
     }
@@ -108,20 +108,21 @@ public class AccountListUI : MonoBehaviour
         account.transform.SetParent(rectContent);
         rectHeightCalculate += AccountListConst.Height_Account + AccountListConst.Height_Spacing;
         account.GetComponent<ItemAccount>().RefreshAccountData(pKey, title, isOut, count, iconUrl);
+        objectShowing.Add(account);
         account.SetActive(true);
     }
 
     /// <summary>
     /// 在最末尾增加新的记账
     /// </summary>
-    public void AddSingleAccountOnLatest()
+    /*public void AddSingleAccountOnLatest()
     {
         //currentShowingAccounts = DataManager.Instance.GetCurrentMonthAccounts();
         //AddSingleAccount(currentShowingAccounts.Last().accounts.Last());
         rectHeightCalculate += AccountListConst.Height_Account + AccountListConst.Height_Spacing;
         rectContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeightCalculate);
         RefreshBalanceText();
-    }
+    }*/
 
     private void ResetRectHeightCalculate()
     {
@@ -145,7 +146,7 @@ public class AccountListUI : MonoBehaviour
         foreach (GameObject go in objectShowing)
         {
             go.SetActive(false);
-            go.transform.parent = rectPoolParent;
+            go.transform.SetParent(rectPoolParent);
             if (go.TryGetComponent(out ItemAccount ia))
             {
                 ia.HardReset();

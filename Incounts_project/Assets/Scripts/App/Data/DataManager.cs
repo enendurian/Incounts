@@ -92,6 +92,12 @@ public class DataManager
         _sqliteManager.ExecuteQuery($"SELECT * FROM {currentDateTable} ORDER BY {TConsts.aDay} ASC, {TConsts.aIndex} ASC", action);
     }
 
+    //按照主键排好序，遍历所有当前的钱包
+    public void TraverseAllWallets(Action<SqliteDataReader> action)
+    {
+        _sqliteManager.ExecuteQuery($"SELECT * FROM {TConsts.walletTable} ORDER BY {TConsts.wIndex} ASC", action);
+    }
+
     //读取钱包表，读取所有钱包余额总和
     public long GetWalletRemains()
     {

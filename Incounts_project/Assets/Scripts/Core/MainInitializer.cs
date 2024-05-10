@@ -6,9 +6,9 @@ public class MainInitializer : MonoBehaviour
 {
     private void Awake()
     {
-        //DataBaseInit();
         DataManager.Instance.OnDataManagerInit();
-        UIManager.Instance.accountListUI.RefreshAllUI();
+        //UIManager.Instance.accountListUI.RefreshAllUI();
+        //UIManager.Instance.walletListUI.RefreshAllUI();
     }
 
     private void OnApplicationQuit()
