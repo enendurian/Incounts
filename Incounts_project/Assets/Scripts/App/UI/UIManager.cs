@@ -42,4 +42,14 @@ public class UIManager : MonoBehaviour
         AnimManager.instance.ImageAlphaChange(bottomButtonImages[btnIndx], 0.5f, 1, 0.3f, 1);
         currentPageIndex = btnIndx;
     }
+
+    public void OnAddAccountClick()
+    {
+        addAccountUI.OpenPanel();
+    }
+
+    public void OnAddWalletClick()
+    {
+        addWalletUI.OpenPanel();
+    }
 }

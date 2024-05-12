@@ -141,10 +141,28 @@ public class SqliteManager
         return recordCount;
     }
 
+    public int GetMaxInt(string tableName,string colName)
+    {
+        int recordMax = 0;
+        using (var command = _sqlConnection.CreateCommand())
+        {
+            command.CommandText = $"SELECT MAX({colName}) FROM {tableName}";
+            object result = command.ExecuteScalar();
+            // 检查返回值是否为DBNull
+            if (result != null && result != DBNull.Value)
+            {
+                // 尝试将结果转换为int
+                recordMax = Convert.ToInt32(result);
+            }
+        }
+        return recordMax;
+    }
+
     #region 那些不用对返回的数据进行处理的数据库操作，可以全部封装好
     public void InsertValues(string tableName, string[] values)
     {
         string cmd = SqlCommandGenerator.InsertValues(tableName, values);
+        Debug.Log(cmd);
         ExecuteQuery(cmd, null);
     }
 

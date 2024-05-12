@@ -22,7 +22,7 @@ public class ItemWallet : MonoBehaviour
     public float transformTimeGap = 0.5f;
     #endregion
 
-    public void RefreshWalletData(int pKey, string name, long balance)
+    public void RefreshWalletData(int pKey, string name, float balance)
     {
         primaryKey = pKey;
         nameText.text = name;

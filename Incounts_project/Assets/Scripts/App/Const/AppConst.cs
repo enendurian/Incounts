@@ -26,7 +26,7 @@ namespace AppConst
         public const string aIsOut = "IsOut";   //0为出账，1为入账
         public const string aCount = "Count";
         public const string aType = "AccountType";
-        public const string aIcon = "IconUrl";
+        public const string aIcon = "IconId";
         public const string aMessage = "Message";
         public const string aWalletId = "WalletId";
 
@@ -36,6 +36,7 @@ namespace AppConst
 
         public const string intType = "INTEGER";
         public const string longType = "BIGINT";
+        public const string floatType = "REAL";
         public const string textType = "TEXT";
     }
 
@@ -45,8 +46,10 @@ namespace AppConst
         public static string[] TypeNames = { "其他", "衣装", "饮食", "生活开销", "交通", "医疗", "娱乐", "薪酬", "转账" };
         public const string incomeColor = "#8FFFBE";
         public const string outgoColor = "#FFAAAA";
-        public AccountTypes[] outTypes = { AccountTypes.Others, AccountTypes.Clothes, AccountTypes.Food, AccountTypes.Lives, AccountTypes.Traffic, AccountTypes.Medic, AccountTypes.Entertain };
-        public AccountTypes[] inTypes = { AccountTypes.Others, AccountTypes.Salary, AccountTypes.Transfer };
+        public const string OutAccount = "支出";
+        public const string InAccount = "收入";
+        public static AccountTypes[] outTypes = { AccountTypes.Others, AccountTypes.Clothes, AccountTypes.Food, AccountTypes.Lives, AccountTypes.Traffic, AccountTypes.Medic, AccountTypes.Entertain };
+        public static AccountTypes[] inTypes = { AccountTypes.Others, AccountTypes.Salary, AccountTypes.Transfer };
     }
 
     public enum AccountTypes

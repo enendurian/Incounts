@@ -25,8 +25,15 @@ public class AccountListUI : UIPagesBase
     private readonly Stack<GameObject> accountPool = new();
     private readonly Stack<GameObject> datePool = new();
 
+    private void Awake()
+    {
+        EventCenter.RegisterListener(AppConst.EventNamesConst.AddAccount, RefreshListItems);
+    }
+
     public override void RefreshAllUI()
     {
+        if (!isShowing)
+            return;
         RefreshYearAndMonth();
         RefreshListItems();
     }
@@ -45,11 +52,12 @@ public class AccountListUI : UIPagesBase
     private void ShowAllListItems(SqliteDataReader reader)
     {
         int lastday = -1;
-        int temp_income = 0;
-        int temp_outgo = 0;
+        double temp_income = 0;
+        double temp_outgo = 0;
         ItemDate temp_dateItem = null;
         emptyPanel.gameObject.SetActive(false);
-
+        Debug.Log($"In Refreshing-------------------------");
+        int tempDataCount = 0;
         while (reader.Read())
         {
             int dayRead = reader.GetInt32(2);
@@ -67,12 +75,13 @@ public class AccountListUI : UIPagesBase
             }
             //增加账目
             int isOut = reader.GetInt32(3);
-            int count = reader.GetInt32(4);
+            double count = reader.GetDouble(4);
             ShowNewAccount(reader.GetInt32(0), reader.GetString(1), isOut, count, reader.GetString(6));
             if (isOut <= 0)
                 temp_outgo += count;
             else
                 temp_income += count;
+            tempDataCount++;
         }
 
         //再刷新一下最后一天的总收支数据
@@ -86,6 +95,7 @@ public class AccountListUI : UIPagesBase
             emptyPanel.gameObject.SetActive(true);
         }
         rectContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeightCalculate);
+        Debug.Log($"In Refreshing end-------------------{tempDataCount}");
     }
 
     private ItemDate ShowNewDay(int day)
@@ -102,7 +112,7 @@ public class AccountListUI : UIPagesBase
         return idate;
     }
 
-    private void ShowNewAccount(int pKey, string title, int isOut, int count, string iconUrl)
+    private void ShowNewAccount(int pKey, string title, int isOut, double count, string iconUrl)
     {
         GameObject account = GetFromPoolOrDefault(accountPool, itemAccounts);
         account.transform.SetParent(rectContent);
@@ -137,7 +147,14 @@ public class AccountListUI : UIPagesBase
 
     public void RefreshBalanceText()
     {
+        if (!isShowing)
+            return;
         mainBalanceText.text = $"总余额：{DataManager.Instance.GetWalletRemains()}";
+    }
+
+    private void OnDestroy()
+    {
+        EventCenter.RemoveListener(AppConst.EventNamesConst.AddAccount, RefreshListItems);
     }
 
     #region Object pool

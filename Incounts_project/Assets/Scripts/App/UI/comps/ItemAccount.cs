@@ -25,7 +25,7 @@ public class ItemAccount : MonoBehaviour
     public float transformTimeGap = 0.5f;
     #endregion
 
-    public void RefreshAccountData(int pKey, string title, int isOut, int count, string iconUrl)
+    public void RefreshAccountData(int pKey, string title, int isOut, double count, string iconUrl)
     {
         primaryKey = pKey;
         titleText.text =title;
