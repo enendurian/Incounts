@@ -38,6 +38,7 @@ public class DataManager
         CheckTableOfWallet();
         CheckTableOfMonth();
         RefreshWalletData();
+        EventCenter.RegisterListener(AppConst.EventNamesConst.RefreshWalletData, RefreshWalletData);
     }
 
     public void OnDataManagerQuit()
@@ -82,7 +83,7 @@ public class DataManager
             {
                 int pkey = reader.GetInt32(0);
                 string name = reader.GetString(1);
-                float balance = reader.GetFloat(2);
+                decimal balance = reader.GetDecimal(2);
                 if (count < walletDataList.Count)
                 {
                     walletDataList[count].Update(pkey, name, balance);
@@ -94,6 +95,16 @@ public class DataManager
                 count++;
             }
         });
+    }
+
+    public int WalletIndex2ListIndex(int walletIndex)
+    {
+        for (int i = 0; i < walletDataList.Count; i++)
+        {
+            if (walletDataList[i].index == walletIndex)
+                return i;
+        }
+        return -1;
     }
 
     #region GetData
@@ -110,14 +121,14 @@ public class DataManager
     }
 
     //读取钱包表，读取所有钱包余额总和
-    public double GetWalletRemains()
+    public decimal GetWalletRemains()
     {
-        _sqliteManager.ExecuteQuery($"SELECT SUM({TConsts.wBalance}) FROM {TConsts.walletTable}", out double result, reader =>
+        _sqliteManager.ExecuteQuery($"SELECT SUM({TConsts.wBalance}) FROM {TConsts.walletTable}", out decimal result, reader =>
          {
              object sumObj = reader.GetValue(0);
              try
              {
-                 return Convert.ToDouble(sumObj);
+                 return Convert.ToDecimal(sumObj);
              }
              catch (InvalidCastException)
              {
@@ -127,7 +138,7 @@ public class DataManager
         return result;
     }
 
-    public void ShowDetailsOfAccount(ItemAccount itemAccount,int pkey)
+    public void ShowDetailsOfAccount(ItemAccount itemAccount, int pkey)
     {
         string command = $"SELECT {TConsts.aType}, {TConsts.aMessage} FROM {currentDateTable} WHERE {TConsts.aIndex} = {pkey}";
         _sqliteManager.ExecuteQuery(command, reader =>
@@ -139,11 +150,35 @@ public class DataManager
             }
         });
     }
+
+    public void ShowDetailsOfAccount(int pkey, Action<SqliteDataReader> showAction)
+    {
+        string command = $"SELECT * FROM {currentDateTable} WHERE {TConsts.aIndex} = {pkey}";
+        _sqliteManager.ExecuteQuery(command, reader =>
+        {
+            if (reader.Read())
+            {
+                showAction.Invoke(reader);
+            }
+        });
+    }
+
+    public void ShowDetailsOfWallet(int pkey, Action<SqliteDataReader> showAction)
+    {
+        string command = $"SELECT * FROM {TConsts.walletTable} WHERE {TConsts.wIndex} = {pkey}";
+        _sqliteManager.ExecuteQuery(command, reader =>
+        {
+            if (reader.Read())
+            {
+                showAction.Invoke(reader);
+            }
+        });
+    }
     #endregion
 
     #region Insert Data
     //在当前月份的表中插入记账记录。这里的方法只执行sql语句和数据库管理。一些界面更新或者数据同步，请不要写在这里。
-    public void AddAccount(string title, int day, int isOut, float count, int accountType, string iconId, string message, int walletId)
+    public void AddAccount(string title, int day, int isOut, decimal count, int accountType, string iconId, string message, int walletId)
     {
         int index = _sqliteManager.GetMaxInt(currentDateTable, TConsts.aIndex);
         index++;
@@ -151,7 +186,7 @@ public class DataManager
         _sqliteManager.InsertValues(currentDateTable, values);
     }
 
-    public void AddWallet(string name, float startBalance)
+    public void AddWallet(string name, decimal startBalance)
     {
         int index = _sqliteManager.GetMaxInt(TConsts.walletTable, TConsts.wIndex);
         index++;
@@ -171,15 +206,38 @@ public class DataManager
         _sqliteManager.DeleteValuesAND(TConsts.walletTable, new string[] { TConsts.wIndex }, new string[] { "=" }, new string[] { $"'{index}'" });
     }
     #endregion
+
+    #region Edit Data
+    public void UpdateAccount(string title, int day, int isOut, decimal count, int accountType, string iconId, string message, int walletId, int pkey)
+    {
+        string[] colNames = new string[] { TConsts.aTitle, TConsts.aDay, TConsts.aIsOut, TConsts.aCount, TConsts.aType, TConsts.aIcon, TConsts.aMessage, TConsts.aWalletId };
+        string[] values = new string[] { $"'{title}'", $"{day}", $"{isOut}", $"{count}", $"{accountType}", $"'{iconId}'", $"'{message}'", $"{walletId}" };
+        _sqliteManager.UpdateValues(currentDateTable, colNames, values, TConsts.aIndex, "=", $"{pkey}");
+    }
+
+    public void UpdateWallet(string name, decimal startBalance, int pkey)
+    {
+        string[] colNames = new string[] { TConsts.wName, TConsts.wBalance };
+        string[] values = new string[] { $"'{name}'", $"{startBalance}" };
+        _sqliteManager.UpdateValues(TConsts.walletTable, colNames, values, TConsts.wIndex, "=", $"{pkey}");
+    }
+    public void UpdateWallet(decimal changeBalance, int pkey)
+    {
+        decimal resultBalance = walletDataList[WalletIndex2ListIndex(pkey)].balance + changeBalance;
+        string[] colNames = new string[] { TConsts.wBalance };
+        string[] values = new string[] { $"{resultBalance}" };
+        _sqliteManager.UpdateValues(TConsts.walletTable, colNames, values, TConsts.wIndex, "=", $"{pkey}");
+    }
+    #endregion
 }
 
 public class WalletDataItem
 {
     public int index;
     public string name;
-    public double balance;
+    public decimal balance;
 
-    public void Update(int idx, string nm, double bl)
+    public void Update(int idx, string nm, decimal bl)
     {
         index = idx;
         name = nm;

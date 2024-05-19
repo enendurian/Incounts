@@ -8,6 +8,7 @@ public class ItemAccount : MonoBehaviour
     [Header("UIElements")]
     public Text titleText;
     public Text countText;
+    public Text walletText;
     public Image icon;
     public RectTransform thisTransform;
     public RectTransform messageBg;
@@ -17,7 +18,7 @@ public class ItemAccount : MonoBehaviour
 
     private int primaryKey;
 
-    private bool ispoened = false;
+    private bool isOpened = false;
 
     #region settings
     public int originalHeight = AccountListConst.Height_Account;
@@ -25,29 +26,31 @@ public class ItemAccount : MonoBehaviour
     public float transformTimeGap = 0.5f;
     #endregion
 
-    public void RefreshAccountData(int pKey, string title, int isOut, double count, string iconUrl)
+    public void RefreshAccountData(int pKey, string title, int isOut, decimal count, string walletname, string iconUrl)
     {
         primaryKey = pKey;
-        titleText.text =title;
-        string head = isOut<=0 ? $"<color={BasicConsts.outgoColor}>-" : $"<color={BasicConsts.incomeColor}>+";
+        titleText.text = title;
+        walletText.text = walletname;
+        string head = isOut <= 0 ? $"<color={BasicConsts.outgoColor}>-" : $"<color={BasicConsts.incomeColor}>+";
         countText.text = $"{head}{count}</color>";
     }
 
     public void OnItemClicked()
     {
-        if (ispoened)
+        if (isOpened)
         {
             OnCloseMessageShow();
             return;
         }
-        ispoened = true;
+        isOpened = true;
         StartCoroutine(ShowDetails());
         EventCenter.RegisterListener(EventNamesConst.SingleClick, ListenClick);
     }
 
     void OnCloseMessageShow()
     {
-        ispoened = false;
+        if (!isOpened) return;
+        isOpened = false;
         StartCoroutine(HideDetails());
         EventCenter.RemoveListener(EventNamesConst.SingleClick, ListenClick);
     }
@@ -98,4 +101,12 @@ public class ItemAccount : MonoBehaviour
             OnCloseMessageShow();
         }
     }
+
+    #region ButtonFunction
+    public void OnEditButtonClicked()
+    {
+        UIManager.Instance.OnEditAccountClick(primaryKey);
+        OnCloseMessageShow();
+    }
+    #endregion
 }

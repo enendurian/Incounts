@@ -23,7 +23,7 @@ public class WalletListUI : UIPagesBase
 
     private void Awake()
     {
-        EventCenter.RegisterListener(AppConst.EventNamesConst.AddWallet, RefreshAllUI);
+        EventCenter.RegisterListener(AppConst.EventNamesConst.RefreshWalletList, RefreshAllUI);
     }
 
     public override void RefreshAllUI()
@@ -52,14 +52,14 @@ public class WalletListUI : UIPagesBase
         {
             int pkey = reader.GetInt32(0);
             string name = reader.GetString(1);
-            float balance = reader.GetFloat(2);
+            decimal balance = reader.GetDecimal(2);
             ShowNewWalllet(pkey, name, balance);
         }
         emptyPanel.gameObject.SetActive(objectShowing.Count <= 0);
         rectContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeightCalculate);
     }
 
-    void ShowNewWalllet(int pkey, string name, float balance)
+    void ShowNewWalllet(int pkey, string name, decimal balance)
     {
         GameObject wallet = GetFromPoolOrDefault(walletPool, itemWallet);
         wallet.transform.SetParent(rectContent);
@@ -76,7 +76,7 @@ public class WalletListUI : UIPagesBase
 
     private void OnDestroy()
     {
-        EventCenter.RemoveListener(AppConst.EventNamesConst.AddWallet, RefreshAllUI);
+        EventCenter.RemoveListener(AppConst.EventNamesConst.RefreshWalletList, RefreshAllUI);
     }
 
     #region Object pool

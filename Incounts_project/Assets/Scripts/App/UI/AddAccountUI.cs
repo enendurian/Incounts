@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using AppConst;
+using Mono.Data.Sqlite;
 
 public class AddAccountUI : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class AddAccountUI : MonoBehaviour
     public InputField countInput;
     public InputField messageInput;
     public InputField dateInput;
+    public Text mainBalanceText;
+    public Text confirmButtonText;
     public Text monthText;
     public Text walletText;
     public Text inoutText;
@@ -24,36 +27,77 @@ public class AddAccountUI : MonoBehaviour
     private AccountTypes[] inTypes = BasicConsts.inTypes;
     private List<WalletDataItem> walletList;
 
-    private int walletIndex;
+    private int walletListIndex;
     private bool isOut;
     private int typeIndex;
     private string iconId;
 
     public bool isOpened;
 
-    public void OpenPanel()
+    private bool isEditMode;
+    private int pKey;
+    private decimal originalCount = 0;
+    private int originalWalletId;
+
+    public void OpenPanel(bool isEditMode = false, int pKey = -1)
     {
         if (isOpened)
             return;
         isOpened = true;
         uimainRect.gameObject.SetActive(true);
         anim.Play("in");
-        InitUI();
+        walletList = DataManager.Instance.walletDataList;
+        this.isEditMode = isEditMode;
+        this.pKey = pKey;
+        if (isEditMode)
+        {
+            InitInEditModeUI();
+        }
+        else
+        {
+            InitUI();
+        }
+        mainBalanceText.text = $"总余额：{DataManager.Instance.GetWalletRemains()}";
+        RefreshInOutText();
+        RefreshTypeText();
     }
 
     private void InitUI()
     {
-        walletList = DataManager.Instance.walletDataList;
-
         monthText.text = $"{DataManager.Instance.currentShowingYear}-{DataManager.Instance.currentShowingMonth}-";
+        titleInput.text = "";
+        messageInput.text = "";
+        countInput.text = "";
         isOut = true;
         dateInput.text = $"{DataManager.Instance.today}";
-        RefreshInOutText();
         typeIndex = 0;
-        RefreshTypeText();
         //iconId
-        walletIndex = 0;
-        walletText.text = walletList[walletIndex].name;
+        walletListIndex = 0;
+        walletText.text = walletList[walletListIndex].name;
+        confirmButtonText.text = "确认添加";
+    }
+
+    private void InitInEditModeUI()
+    {
+        confirmButtonText.text = "应用修改";
+        DataManager.Instance.ShowDetailsOfAccount(pKey, ShowEditDatas);
+    }
+
+    private void ShowEditDatas(SqliteDataReader reader)
+    {
+        titleInput.text = reader.GetString(1);
+        monthText.text = $"{DataManager.Instance.currentShowingYear}-{DataManager.Instance.currentShowingMonth}-";
+        isOut = reader.GetInt32(3) <= 0;
+        dateInput.text = $"{reader.GetInt32(2)}";
+        originalCount = reader.GetDecimal(4);
+        countInput.text = $"{originalCount}";
+        originalCount = isOut ? -originalCount : originalCount;
+        typeIndex = reader.GetInt32(5);
+        //iconId
+        messageInput.text = reader.GetString(7);
+        originalWalletId = reader.GetInt32(8);
+        walletListIndex = DataManager.Instance.WalletIndex2ListIndex(originalWalletId);
+        walletText.text = walletList[walletListIndex].name;
     }
 
     private void RefreshInOutText()
@@ -90,12 +134,12 @@ public class AddAccountUI : MonoBehaviour
 
     public void OnClickChangeWallet()
     {
-        walletIndex++;
-        if (walletIndex >= walletList.Count)
+        walletListIndex++;
+        if (walletListIndex >= walletList.Count)
         {
-            walletIndex = 0;
+            walletListIndex = 0;
         }
-        walletText.text = walletList[walletIndex].name;
+        walletText.text = walletList[walletListIndex].name;
     }
 
     public void OnCancelClicked()
@@ -108,14 +152,52 @@ public class AddAccountUI : MonoBehaviour
     public void OnConfirmClicked()
     {
         if (!isOpened) return;
-        bool realCount = float.TryParse(countInput.text, out float countf);
+        bool realCount = decimal.TryParse(countInput.text, out decimal countf);
         bool realDay = int.TryParse(dateInput.text, out int dayi);
+        if (!realCount)
+        {
+            TipManager.Instance.AddTipToShow("无效的账目");
+            return;
+        }
+        if (!realDay)
+        {
+            TipManager.Instance.AddTipToShow("非法日期");
+            return;
+        }
+        if (titleInput.text == null || titleInput.text == "")
+        {
+            TipManager.Instance.AddTipToShow("缺少标题");
+            return;
+        }
+
         //临时数据
         iconId = "0_0";
-        DataManager.Instance.AddAccount(titleInput.text, realDay ? dayi : DataManager.Instance.today, isOut ? 0 : 1, realCount ? countf : 0f, typeIndex, iconId, messageInput.text, walletList[walletIndex].index);
-        //对钱包进行更新
+
+        if (isEditMode)
+        {
+            DataManager.Instance.UpdateAccount(titleInput.text, realDay ? dayi : DataManager.Instance.today, isOut ? 0 : 1, countf, typeIndex, iconId, messageInput.text, walletList[walletListIndex].index, pKey);
+
+            if (originalWalletId == walletList[walletListIndex].index)
+            {
+                decimal sumOfChange = isOut ? -countf : countf;
+                sumOfChange -= originalCount;
+                DataManager.Instance.UpdateWallet(sumOfChange, walletList[walletListIndex].index);
+                Debug.Log($"钱包动账：{sumOfChange}, 在{walletList[walletListIndex].name}");
+            }
+            else
+            {
+                DataManager.Instance.UpdateWallet(-originalCount, originalWalletId);
+                DataManager.Instance.UpdateWallet(isOut ? -countf : countf, walletList[walletListIndex].index);
+            }
+        }
+        else
+        {
+            DataManager.Instance.AddAccount(titleInput.text, realDay ? dayi : DataManager.Instance.today, isOut ? 0 : 1, countf, typeIndex, iconId, messageInput.text, walletList[walletListIndex].index);
+            DataManager.Instance.UpdateWallet(isOut ? -countf : countf, walletList[walletListIndex].index);
+        }
         anim.Play("confirmed");
-        EventCenter.TriggerEvent(AppConst.EventNamesConst.AddAccount);
+        EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletData);
+        EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshAccountList);
         StartCoroutine(DelayActiveAndSetClosed());
     }
     #endregion

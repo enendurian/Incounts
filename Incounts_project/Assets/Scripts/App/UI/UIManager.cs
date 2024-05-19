@@ -52,4 +52,14 @@ public class UIManager : MonoBehaviour
     {
         addWalletUI.OpenPanel();
     }
+
+    public void OnEditAccountClick(int pKey)
+    {
+        addAccountUI.OpenPanel(true, pKey);
+    }
+
+    public void OnEditWalletClick(int pKey)
+    {
+        addWalletUI.OpenPanel(true, pKey);
+    }
 }

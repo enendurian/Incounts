@@ -27,7 +27,7 @@ public class AccountListUI : UIPagesBase
 
     private void Awake()
     {
-        EventCenter.RegisterListener(AppConst.EventNamesConst.AddAccount, RefreshListItems);
+        EventCenter.RegisterListener(AppConst.EventNamesConst.RefreshAccountList, RefreshListItems);
     }
 
     public override void RefreshAllUI()
@@ -52,11 +52,10 @@ public class AccountListUI : UIPagesBase
     private void ShowAllListItems(SqliteDataReader reader)
     {
         int lastday = -1;
-        double temp_income = 0;
-        double temp_outgo = 0;
+        decimal temp_income = 0;
+        decimal temp_outgo = 0;
         ItemDate temp_dateItem = null;
         emptyPanel.gameObject.SetActive(false);
-        Debug.Log($"In Refreshing-------------------------");
         int tempDataCount = 0;
         while (reader.Read())
         {
@@ -75,8 +74,9 @@ public class AccountListUI : UIPagesBase
             }
             //Ôö¼ÓÕËÄ¿
             int isOut = reader.GetInt32(3);
-            double count = reader.GetDouble(4);
-            ShowNewAccount(reader.GetInt32(0), reader.GetString(1), isOut, count, reader.GetString(6));
+            decimal count = reader.GetDecimal(4);
+            string walletName = DataManager.Instance.walletDataList[DataManager.Instance.WalletIndex2ListIndex(reader.GetInt32(8))].name;
+            ShowNewAccount(reader.GetInt32(0), reader.GetString(1), isOut, count, walletName, reader.GetString(6));
             if (isOut <= 0)
                 temp_outgo += count;
             else
@@ -95,7 +95,6 @@ public class AccountListUI : UIPagesBase
             emptyPanel.gameObject.SetActive(true);
         }
         rectContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeightCalculate);
-        Debug.Log($"In Refreshing end-------------------{tempDataCount}");
     }
 
     private ItemDate ShowNewDay(int day)
@@ -112,12 +111,12 @@ public class AccountListUI : UIPagesBase
         return idate;
     }
 
-    private void ShowNewAccount(int pKey, string title, int isOut, double count, string iconUrl)
+    private void ShowNewAccount(int pKey, string title, int isOut, decimal count, string walletName, string iconUrl)
     {
         GameObject account = GetFromPoolOrDefault(accountPool, itemAccounts);
         account.transform.SetParent(rectContent);
         rectHeightCalculate += AccountListConst.Height_Account + AccountListConst.Height_Spacing;
-        account.GetComponent<ItemAccount>().RefreshAccountData(pKey, title, isOut, count, iconUrl);
+        account.GetComponent<ItemAccount>().RefreshAccountData(pKey, title, isOut, count, walletName, iconUrl);
         objectShowing.Add(account);
         account.SetActive(true);
     }
@@ -154,7 +153,7 @@ public class AccountListUI : UIPagesBase
 
     private void OnDestroy()
     {
-        EventCenter.RemoveListener(AppConst.EventNamesConst.AddAccount, RefreshListItems);
+        EventCenter.RemoveListener(AppConst.EventNamesConst.RefreshAccountList, RefreshListItems);
     }
 
     #region Object pool

@@ -3,7 +3,8 @@ namespace AppConst
     public class EventNamesConst
     {
         public const string SingleClick = "SingleClick";
-        public const string AddAccount = "AddAccount";
-        public const string AddWallet = "AddWallet";
+        public const string RefreshAccountList = "RefreshAccountList";
+        public const string RefreshWalletList = "RefreshWalletList";
+        public const string RefreshWalletData = "RefreshWalletData";
     }
 }

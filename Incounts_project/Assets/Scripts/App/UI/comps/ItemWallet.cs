@@ -22,7 +22,7 @@ public class ItemWallet : MonoBehaviour
     public float transformTimeGap = 0.5f;
     #endregion
 
-    public void RefreshWalletData(int pKey, string name, float balance)
+    public void RefreshWalletData(int pKey, string name, decimal balance)
     {
         primaryKey = pKey;
         nameText.text = name;
@@ -92,4 +92,12 @@ public class ItemWallet : MonoBehaviour
             OnCloseMessageShow();
         }
     }
+
+    #region ButtonFunction
+    public void OnEditButtonClicked()
+    {
+        UIManager.Instance.OnEditWalletClick(primaryKey);
+        OnCloseMessageShow();
+    }
+    #endregion
 }
