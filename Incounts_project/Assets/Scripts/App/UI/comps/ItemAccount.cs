@@ -105,8 +105,29 @@ public class ItemAccount : MonoBehaviour
     #region ButtonFunction
     public void OnEditButtonClicked()
     {
+        if (UIManager.Instance.CurrentStatus != UIStatus.NoWindow) return;
         UIManager.Instance.OnEditAccountClick(primaryKey);
         OnCloseMessageShow();
+    }
+
+    public void OnDeleteButtonClicked()
+    {
+        MessageBoxManager.Instance.MessageBoxShow("确定删除？相关的账目记录将被回退", DeleteAction);
+    }
+
+    private void DeleteAction()
+    {
+        DataManager.Instance.ShowDetailsOfAccount(primaryKey, (reader) =>
+        {
+            decimal originalCount = reader.GetDecimal(4);
+            int originalWalletId = reader.GetInt32(8);
+            bool isOut = reader.GetInt32(3) <= 0;
+            originalCount = isOut ? originalCount : -originalCount;
+            DataManager.Instance.UpdateWallet(originalCount, originalWalletId);
+            DataManager.Instance.DeleteAccount(primaryKey);
+            EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletData);
+            EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshAccountList);
+        });
     }
     #endregion
 }

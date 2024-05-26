@@ -38,6 +38,7 @@ public class AddWalletUI : MonoBehaviour
         {
             confirmButtonText.text = "»∑»œÃÌº”";
         }
+        UIManager.Instance.SetUIStatus(UIStatus.IWindowOpened);
     }
 
     private void InitEditMode()
@@ -90,8 +91,9 @@ public class AddWalletUI : MonoBehaviour
         {
             DataManager.Instance.AddWallet(walletName.text, realBalance ? balancef : 0);
         }
-        EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletData);
         EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletList);
+        EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletData);
+        EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshAccountList);
         StartCoroutine(DelayActiveAndSetClosed());
     }
     #endregion
@@ -101,5 +103,6 @@ public class AddWalletUI : MonoBehaviour
         yield return new WaitForSeconds(0.35f);
         isOpened = false;
         uimainRect.gameObject.SetActive(false);
+        UIManager.Instance.SetUIStatus(UIStatus.NoWindow);
     }
 }

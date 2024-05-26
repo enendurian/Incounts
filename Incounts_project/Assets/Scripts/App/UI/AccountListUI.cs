@@ -43,6 +43,7 @@ public class AccountListUI : UIPagesBase
     /// </summary>
     public void RefreshListItems()
     {
+        Debug.Log("Triggrtrd: refresh A ui");
         ClearShowingObjects();
         ResetRectHeightCalculate();
         DataManager.Instance.TraverseAllRecords(ShowAllListItems);

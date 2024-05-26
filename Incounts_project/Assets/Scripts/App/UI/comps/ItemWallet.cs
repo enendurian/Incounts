@@ -96,8 +96,26 @@ public class ItemWallet : MonoBehaviour
     #region ButtonFunction
     public void OnEditButtonClicked()
     {
+        if (UIManager.Instance.CurrentStatus != UIStatus.NoWindow) return;
         UIManager.Instance.OnEditWalletClick(primaryKey);
         OnCloseMessageShow();
+    }
+
+    public void OnDeleteButtonClicked()
+    {
+        MessageBoxManager.Instance.MessageBoxShow("钱包不会删除，而是余额会变为 0。你确定吗？", DeleteAction);
+    }
+
+    private void DeleteAction()
+    {
+        DataManager.Instance.ShowDetailsOfWallet(primaryKey, (reader) => 
+        {
+            decimal originalBalance = (decimal)reader.GetDouble(2);
+            DataManager.Instance.AddAccount($"删除钱包：{reader.GetString(1)}", DataManager.Instance.today, 0, originalBalance, 0, "0_0", "删除钱包，清空账目", primaryKey);
+            DataManager.Instance.UpdateWallet(-originalBalance, primaryKey);
+            EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletList);
+            EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletData);
+        });
     }
     #endregion
 }

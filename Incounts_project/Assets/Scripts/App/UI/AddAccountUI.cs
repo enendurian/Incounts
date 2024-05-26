@@ -60,6 +60,7 @@ public class AddAccountUI : MonoBehaviour
         mainBalanceText.text = $"总余额：{DataManager.Instance.GetWalletRemains()}";
         RefreshInOutText();
         RefreshTypeText();
+        UIManager.Instance.SetUIStatus(UIStatus.IWindowOpened);
     }
 
     private void InitUI()
@@ -169,6 +170,11 @@ public class AddAccountUI : MonoBehaviour
             TipManager.Instance.AddTipToShow("缺少标题");
             return;
         }
+        if (countf <= 0 || dayi <= 0)
+        {
+            TipManager.Instance.AddTipToShow("非法数据：非正数");
+            return;
+        }
 
         //临时数据
         iconId = "0_0";
@@ -206,6 +212,7 @@ public class AddAccountUI : MonoBehaviour
     {
         yield return new WaitForSeconds(0.35f);
         isOpened = false;
+        UIManager.Instance.SetUIStatus(UIStatus.NoWindow);
         uimainRect.gameObject.SetActive(false);
     }
 }

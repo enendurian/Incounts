@@ -54,6 +54,7 @@ public class WalletListUI : UIPagesBase
             string name = reader.GetString(1);
             decimal balance = reader.GetDecimal(2);
             ShowNewWalllet(pkey, name, balance);
+            Debug.Log($"this is {name}-------------------current Objects On Show  {objectShowing.Count}");
         }
         emptyPanel.gameObject.SetActive(objectShowing.Count <= 0);
         rectContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeightCalculate);
@@ -89,6 +90,7 @@ public class WalletListUI : UIPagesBase
             go.GetComponent<ItemWallet>().HardReset();
             walletPool.Push(go);
         }
+        objectShowing.Clear();
     }
 
     GameObject GetFromPoolOrDefault(Stack<GameObject> pool, GameObject defaultGo)

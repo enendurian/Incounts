@@ -117,7 +117,7 @@ public class DataManager
     //按照主键排好序，遍历所有当前的钱包
     public void TraverseAllWallets(Action<SqliteDataReader> action)
     {
-        _sqliteManager.ExecuteQuery($"SELECT * FROM {TConsts.walletTable} ORDER BY {TConsts.wIndex} ASC", action);
+        _sqliteManager.ExecuteQuery($"SELECT * FROM {TConsts.walletTable} ORDER BY {TConsts.wBalance} DESC", action);
     }
 
     //读取钱包表，读取所有钱包余额总和
@@ -135,6 +135,24 @@ public class DataManager
                  return 0;
              }
          });
+        return result;
+    }
+
+    //读取钱包表，读取有几个钱包
+    public int GetWalletCount()
+    {
+        _sqliteManager.ExecuteQuery($"SELECT COUNT(*) FROM {TConsts.walletTable}", out int result, reader =>
+        {
+            object sumObj = reader.GetValue(0);
+            try
+            {
+                return Convert.ToInt32(sumObj);
+            }
+            catch (InvalidCastException)
+            {
+                return 0;
+            }
+        });
         return result;
     }
 
@@ -201,10 +219,10 @@ public class DataManager
         _sqliteManager.DeleteValuesAND(currentDateTable, new string[] { TConsts.aIndex }, new string[] { "=" }, new string[] { $"'{index}'" });
     }
 
-    public void DeleteWallet(int index)
+    /*public void DeleteWallet(int index)
     {
         _sqliteManager.DeleteValuesAND(TConsts.walletTable, new string[] { TConsts.wIndex }, new string[] { "=" }, new string[] { $"'{index}'" });
-    }
+    }*/
     #endregion
 
     #region Edit Data
@@ -221,6 +239,7 @@ public class DataManager
         string[] values = new string[] { $"'{name}'", $"{startBalance}" };
         _sqliteManager.UpdateValues(TConsts.walletTable, colNames, values, TConsts.wIndex, "=", $"{pkey}");
     }
+
     public void UpdateWallet(decimal changeBalance, int pkey)
     {
         decimal resultBalance = walletDataList[WalletIndex2ListIndex(pkey)].balance + changeBalance;

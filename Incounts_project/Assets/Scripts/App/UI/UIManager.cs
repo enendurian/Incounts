@@ -7,6 +7,12 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    private UIStatus _currentStatus;
+    public UIStatus CurrentStatus
+    {
+        get { return _currentStatus; }
+    }
+
     public AddAccountUI addAccountUI;
     public AddWalletUI addWalletUI;
     public List<UIPagesBase> pages;
@@ -26,11 +32,23 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        OnPageButtonClick(0);
+        int walletCount = DataManager.Instance.GetWalletCount();
+        if (walletCount > 0)
+        {
+            OnPageButtonClick(0);
+            return;
+        }
+        OnPageButtonClick(1);
+    }
+
+    public void SetUIStatus(UIStatus uIStatus)
+    {
+        _currentStatus = uIStatus;
     }
 
     public void OnPageButtonClick(int btnIndx)
     {
+        if (_currentStatus != UIStatus.NoWindow) return;
         if (btnIndx == currentPageIndex) return;
 
         if (currentPageIndex >= 0 && currentPageIndex < pages.Count)
@@ -45,6 +63,11 @@ public class UIManager : MonoBehaviour
 
     public void OnAddAccountClick()
     {
+        if (DataManager.Instance.GetWalletCount() <= 0)
+        {
+            TipManager.Instance.AddTipToShow("先加入钱包才能记账");
+            return;
+        }
         addAccountUI.OpenPanel();
     }
 
@@ -62,4 +85,10 @@ public class UIManager : MonoBehaviour
     {
         addWalletUI.OpenPanel(true, pKey);
     }
+}
+
+public enum UIStatus
+{
+    NoWindow,
+    IWindowOpened,
 }
