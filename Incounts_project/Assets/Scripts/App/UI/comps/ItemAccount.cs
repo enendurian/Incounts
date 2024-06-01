@@ -11,7 +11,7 @@ public class ItemAccount : MonoBehaviour
     public Text walletText;
     public Image icon;
     public RectTransform thisTransform;
-    public RectTransform messageBg;
+    public RectTransform detailTransform;
     public Text messageText;
     public Text typeText;
     public CanvasGroup messageCanvasGroup;
@@ -23,7 +23,7 @@ public class ItemAccount : MonoBehaviour
     #region settings
     public int originalHeight = AccountListConst.Height_Account;
     public int aimShowingHeight = 400;
-    public float transformTimeGap = 0.5f;
+    public float transformTimeGap = 0.2f;
     #endregion
 
     public void RefreshAccountData(int pKey, string title, int isOut, decimal count, string walletname, string iconUrl)
@@ -31,6 +31,7 @@ public class ItemAccount : MonoBehaviour
         primaryKey = pKey;
         titleText.text = title;
         walletText.text = walletname;
+        isOpened = false;
         string head = isOut <= 0 ? $"<color={BasicConsts.outgoColor}>-" : $"<color={BasicConsts.incomeColor}>+";
         countText.text = $"{head}{count}</color>";
     }
@@ -59,8 +60,9 @@ public class ItemAccount : MonoBehaviour
     {
         float timeCount = 0;
 
+        detailTransform.gameObject.SetActive(true);
         DataManager.Instance.ShowDetailsOfAccount(this, primaryKey);
-        while (timeCount <= transformTimeGap)
+        while (timeCount <= transformTimeGap && isOpened)
         {
             yield return null;
             timeCount += Time.deltaTime;
@@ -73,7 +75,7 @@ public class ItemAccount : MonoBehaviour
     IEnumerator HideDetails()
     {
         float timeCount = 0;
-        while (timeCount <= transformTimeGap)
+        while (timeCount <= transformTimeGap && !isOpened)
         {
             yield return null;
             timeCount += Time.deltaTime;
@@ -81,7 +83,11 @@ public class ItemAccount : MonoBehaviour
             thisTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Lerp(thisTransform.rect.height, originalHeight, progress));
             messageCanvasGroup.alpha = Mathf.Lerp(messageCanvasGroup.alpha, 0, progress);
         }
-        HardReset();
+        if (!isOpened)
+        {
+            detailTransform.gameObject.SetActive(false);
+            HardReset();
+        }
     }
 
     /// <summary>
