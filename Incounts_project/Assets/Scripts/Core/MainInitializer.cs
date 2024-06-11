@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class MainInitializer : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
+        Debug.Log("Initialize awake------------------");
         DataManager.Instance.OnDataManagerInit();
-        //UIManager.Instance.accountListUI.RefreshAllUI();
-        //UIManager.Instance.walletListUI.RefreshAllUI();
     }
 
     private void OnApplicationQuit()

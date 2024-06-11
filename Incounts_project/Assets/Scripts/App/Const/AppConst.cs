@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace AppConst
 {
     public class AccountListConst
@@ -50,6 +52,19 @@ namespace AppConst
         public const string InAccount = " ’»Î";
         public static AccountTypes[] outTypes = { AccountTypes.Others, AccountTypes.Clothes, AccountTypes.Food, AccountTypes.Lives, AccountTypes.Traffic, AccountTypes.Medic, AccountTypes.Entertain };
         public static AccountTypes[] inTypes = { AccountTypes.Others, AccountTypes.Salary, AccountTypes.Transfer };
+        public const string addressIcon = "Assets/Res/images/{0}.png";
+        public static Dictionary<int, List<string>> iconListDict = new()
+        {
+            { 0,new List<string>{ "0_0" } },
+            { 1,new List<string>{ "1_0"} },
+            { 2,new List<string>{ "2_0"} },
+            { 3,new List<string>{ "3_0"} },
+            { 4,new List<string>{ "4_0"} },
+            { 5,new List<string>{ "5_0"} },
+            { 6,new List<string>{ "6_0"} },
+            { 7,new List<string>{ "7_0"} },
+            { 8,new List<string>{ "8_0"} },
+        };
     }
 
     public enum AccountTypes

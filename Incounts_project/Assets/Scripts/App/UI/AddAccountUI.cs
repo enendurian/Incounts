@@ -19,18 +19,20 @@ public class AddAccountUI : MonoBehaviour
     public Text walletText;
     public Text inoutText;
     public Text typeText;
+    public Image icon;
 
     [Header("Settings")]
     public Animator anim;
 
-    private AccountTypes[] outTypes = BasicConsts.outTypes;
-    private AccountTypes[] inTypes = BasicConsts.inTypes;
+    private AccountTypes[] currentTypes
+    {
+        get { return isOut ? AppConst.BasicConsts.outTypes : AppConst.BasicConsts.inTypes; }
+    }
     private List<WalletDataItem> walletList;
 
     private int walletListIndex;
     private bool isOut;
     private int typeIndex;
-    private string iconId;
 
     public bool isOpened;
 
@@ -38,6 +40,8 @@ public class AddAccountUI : MonoBehaviour
     private int pKey;
     private decimal originalCount = 0;
     private int originalWalletId;
+    private int currentIconIndex = 0;
+    private List<string> currentIconList;
 
     public void OpenPanel(bool isEditMode = false, int pKey = -1)
     {
@@ -72,7 +76,9 @@ public class AddAccountUI : MonoBehaviour
         isOut = true;
         dateInput.text = $"{DataManager.Instance.today}";
         typeIndex = 0;
-        //iconId
+        currentIconList = AppConst.BasicConsts.iconListDict[(int)currentTypes[typeIndex]];
+        currentIconIndex = 0;
+        RefreshIcon(currentIconList[currentIconIndex]);
         walletListIndex = 0;
         walletText.text = walletList[walletListIndex].name;
         confirmButtonText.text = "确认添加";
@@ -94,7 +100,8 @@ public class AddAccountUI : MonoBehaviour
         countInput.text = $"{originalCount}";
         originalCount = isOut ? -originalCount : originalCount;
         typeIndex = reader.GetInt32(5);
-        //iconId
+        currentIconList = AppConst.BasicConsts.iconListDict[(int)currentTypes[typeIndex]];
+        RefreshIcon(reader.GetString(6));
         messageInput.text = reader.GetString(7);
         originalWalletId = reader.GetInt32(8);
         walletListIndex = DataManager.Instance.WalletIndex2ListIndex(originalWalletId);
@@ -108,9 +115,14 @@ public class AddAccountUI : MonoBehaviour
 
     private void RefreshTypeText()
     {
-        AccountTypes[] availableTypes = isOut ? outTypes : inTypes;
-        int typeNum = (int)availableTypes[typeIndex];
+        int typeNum = (int)currentTypes[typeIndex];
         typeText.text = BasicConsts.TypeNames[typeNum];
+    }
+
+    private void RefreshIcon(string iconUrl)
+    {
+        string url = string.Format(AppConst.BasicConsts.addressIcon, iconUrl);
+        AddressableManager.LoadAssetAsync<Sprite>(url, (texture) => { icon.sprite = texture; });
     }
 
     #region button func
@@ -120,17 +132,32 @@ public class AddAccountUI : MonoBehaviour
         typeIndex = 0;
         RefreshInOutText();
         RefreshTypeText();
+        currentIconList = AppConst.BasicConsts.iconListDict[(int)currentTypes[typeIndex]];
+        currentIconIndex = 0;
+        RefreshIcon(currentIconList[currentIconIndex]);
     }
 
     public void OnClickChangeType()
     {
         typeIndex++;
-        AccountTypes[] availableTypes = isOut ? outTypes : inTypes;
-        if (typeIndex >= availableTypes.Length)
+        if (typeIndex >= currentTypes.Length)
         {
             typeIndex = 0;
         }
+        currentIconList = AppConst.BasicConsts.iconListDict[(int)currentTypes[typeIndex]];
+        currentIconIndex = 0;
         RefreshTypeText();
+        RefreshIcon(currentIconList[currentIconIndex]);
+    }
+
+    public void OnClickChangeIcon()
+    {
+        currentIconIndex++;
+        if (currentIconIndex >= currentIconList.Count)
+        {
+            currentIconIndex = 0;
+        }
+        RefreshIcon(currentIconList[currentIconIndex]);
     }
 
     public void OnClickChangeWallet()
@@ -177,11 +204,11 @@ public class AddAccountUI : MonoBehaviour
         }
 
         //临时数据
-        iconId = "0_0";
+        string iconId = currentIconList[currentIconIndex];
 
         if (isEditMode)
         {
-            DataManager.Instance.UpdateAccount(titleInput.text, realDay ? dayi : DataManager.Instance.today, isOut ? 0 : 1, countf, typeIndex, iconId, messageInput.text, walletList[walletListIndex].index, pKey);
+            DataManager.Instance.UpdateAccount(titleInput.text, realDay ? dayi : DataManager.Instance.today, isOut ? 0 : 1, countf, (int)currentTypes[typeIndex], iconId, messageInput.text, walletList[walletListIndex].index, pKey);
 
             if (originalWalletId == walletList[walletListIndex].index)
             {
@@ -198,7 +225,7 @@ public class AddAccountUI : MonoBehaviour
         }
         else
         {
-            DataManager.Instance.AddAccount(titleInput.text, realDay ? dayi : DataManager.Instance.today, isOut ? 0 : 1, countf, typeIndex, iconId, messageInput.text, walletList[walletListIndex].index);
+            DataManager.Instance.AddAccount(titleInput.text, realDay ? dayi : DataManager.Instance.today, isOut ? 0 : 1, countf, (int)currentTypes[typeIndex], iconId, messageInput.text, walletList[walletListIndex].index);
             DataManager.Instance.UpdateWallet(isOut ? -countf : countf, walletList[walletListIndex].index);
         }
         anim.Play("confirmed");

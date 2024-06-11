@@ -11,8 +11,10 @@ public class SqliteManager
     {
         if (!File.Exists(dbPath))
         {
+            Debug.Log($"Do Not Exists path {dbPath}");
             CreateDbSqlite(dbPath);
         }
+        Debug.Log($"Exists path {dbPath}");
         ConnectDbSqlite(dbPath);
     }
 
@@ -25,6 +27,7 @@ public class SqliteManager
                 Directory.CreateDirectory(new FileInfo(dbPath).Directory.FullName);
             }
             SqliteConnection.CreateFile(dbPath);
+            Debug.Log($"Create Database finished");
             return true;
         }
         catch (Exception e)
@@ -40,6 +43,7 @@ public class SqliteManager
         {
             _sqlConnection = new SqliteConnection(new SqliteConnectionStringBuilder() { DataSource = dbPath }.ToString());
             _sqlConnection.Open();
+            Debug.Log($"Connect Database finished");
             return true;
         }
         catch (Exception e)

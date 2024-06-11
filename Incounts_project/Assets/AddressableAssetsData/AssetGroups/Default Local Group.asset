@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 8fba6b4882de79d49940060d11be315d
+  m_SerializeEntries:
+  - m_GUID: b33a796555107914e858a487ceede8d1
+    m_Address: Assets/Res/images/5_0.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fe3ffed80f9de9747a1d0109ec9e9a3a
+    m_Address: Assets/Res/images/7_0.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 015d3c35a8deeb74b952a575de48abe2
+    m_Address: Assets/Res/images/0_0.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5166f52975457544bbb31f2820bcbfba
+    m_Address: Assets/Res/images/3_0.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 94062ec9b14c166499696b00fcc1f03d
+    m_Address: Assets/Res/images/4_0.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 217b7a29eef73df498c1b3dd30066bd9
+    m_Address: Assets/Res/images/1_0.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: faf5e4acb10b0284894f7da174617391
+    m_Address: Assets/Res/images/2_0.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 80b4efbb50d5ebb42b43cb6499404515
+    m_Address: Assets/Res/images/6_0.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5cf05746c47498944abdf82d83ead623
+    m_Address: Assets/Res/images/8_0.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f5907e214f6906b4da6bb96c63e8d34b, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 3b26dd1a1987a3d4d94eb4574bd08f89, type: 2}
+    - {fileID: 11400000, guid: 1cfc060f5347c69439254e65a8f94814, type: 2}

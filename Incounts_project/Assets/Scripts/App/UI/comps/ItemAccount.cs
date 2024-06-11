@@ -34,6 +34,8 @@ public class ItemAccount : MonoBehaviour
         isOpened = false;
         string head = isOut <= 0 ? $"<color={BasicConsts.outgoColor}>-" : $"<color={BasicConsts.incomeColor}>+";
         countText.text = $"{head}{count}</color>";
+        string url = string.Format(AppConst.BasicConsts.addressIcon, iconUrl);
+        AddressableManager.LoadAssetAsync<Sprite>(url, (texture) => { icon.sprite = texture; });
     }
 
     public void OnItemClicked()

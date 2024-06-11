@@ -23,6 +23,7 @@ public class DataManager
             if (instance == null)
             {
                 instance = new DataManager();
+                instance.OnDataManagerInit();
             }
             return instance;
         }
@@ -36,9 +37,24 @@ public class DataManager
         today = now.Day;
         DataBaseInit();
         CheckTableOfWallet();
-        CheckTableOfMonth();
         RefreshWalletData();
+        CheckTableOfMonth();
         EventCenter.RegisterListener(AppConst.EventNamesConst.RefreshWalletData, RefreshWalletData);
+    }
+    public void MonthChange(int change)
+    {
+        currentShowingMonth += change;
+        if (currentShowingMonth <= 0)
+        {
+            currentShowingMonth = 12;
+            currentShowingYear -= 1;
+        }
+        if (currentShowingMonth > 12)
+        {
+            currentShowingMonth = 1;
+            currentShowingYear += 1;
+        }
+        CheckTableOfMonth();
     }
 
     public void OnDataManagerQuit()
@@ -48,7 +64,8 @@ public class DataManager
 
     void DataBaseInit()
     {
-        string path = Application.dataPath + "/database/test.db";
+        string path = Application.persistentDataPath + "/database/incounts.db";
+        Debug.Log($"The Path is {path}");
         _sqliteManager = new(path);
     }
 

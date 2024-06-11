@@ -43,7 +43,6 @@ public class AccountListUI : UIPagesBase
     /// </summary>
     public void RefreshListItems()
     {
-        Debug.Log("Triggrtrd: refresh A ui");
         ClearShowingObjects();
         ResetRectHeightCalculate();
         DataManager.Instance.TraverseAllRecords(ShowAllListItems);
@@ -122,17 +121,11 @@ public class AccountListUI : UIPagesBase
         account.SetActive(true);
     }
 
-    /// <summary>
-    /// 在最末尾增加新的记账
-    /// </summary>
-    /*public void AddSingleAccountOnLatest()
+    public void MonthSwitchButtonClicked(int change)
     {
-        //currentShowingAccounts = DataManager.Instance.GetCurrentMonthAccounts();
-        //AddSingleAccount(currentShowingAccounts.Last().accounts.Last());
-        rectHeightCalculate += AccountListConst.Height_Account + AccountListConst.Height_Spacing;
-        rectContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeightCalculate);
-        RefreshBalanceText();
-    }*/
+        DataManager.Instance.MonthChange(change);
+        RefreshAllUI();
+    }
 
     private void ResetRectHeightCalculate()
     {
@@ -176,6 +169,7 @@ public class AccountListUI : UIPagesBase
                 continue;
             }
         }
+        objectShowing.Clear();
     }
 
     GameObject GetFromPoolOrDefault(Stack<GameObject> pool,GameObject defaultGo)
