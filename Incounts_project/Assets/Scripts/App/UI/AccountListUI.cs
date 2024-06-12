@@ -27,13 +27,16 @@ public class AccountListUI : UIPagesBase
 
     private void Awake()
     {
-        EventCenter.RegisterListener(AppConst.EventNamesConst.RefreshAccountList, RefreshListItems);
+        EventCenter.RegisterListener(AppConst.EventNamesConst.RefreshAccountList, RefreshAllUI);
     }
 
     public override void RefreshAllUI()
     {
         if (!isShowing)
+        {
+            isDirty = true;
             return;
+        }
         RefreshYearAndMonth();
         RefreshListItems();
     }
@@ -43,6 +46,7 @@ public class AccountListUI : UIPagesBase
     /// </summary>
     public void RefreshListItems()
     {
+        Debug.Log("Run refresh list items--------------------------");
         ClearShowingObjects();
         ResetRectHeightCalculate();
         DataManager.Instance.TraverseAllRecords(ShowAllListItems);

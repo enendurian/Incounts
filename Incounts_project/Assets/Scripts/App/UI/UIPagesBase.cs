@@ -7,13 +7,18 @@ public class UIPagesBase : MonoBehaviour
     public CanvasGroup mainCanvasGroup;
 
     protected bool isShowing;
+    protected bool isDirty = true;
 
     public void ShowPageUI()
     {
         mainPanel.gameObject.SetActive(true);
         isShowing = true;
         AnimManager.instance.CanvasGroupAlphaChange(mainCanvasGroup, 0, 1, 0.2f, 1);
-        RefreshAllUI();
+        if (isDirty)
+        {
+            RefreshAllUI();
+            isDirty = false;
+        }
     }
 
     public void ClosePageUI()

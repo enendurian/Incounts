@@ -29,7 +29,10 @@ public class WalletListUI : UIPagesBase
     public override void RefreshAllUI()
     {
         if (!isShowing)
+        {
+            isDirty = true;
             return;
+        }
         RefreshBalance();
         RefreshListItems();
     }
@@ -41,6 +44,7 @@ public class WalletListUI : UIPagesBase
 
     public void RefreshListItems()
     {
+        Debug.Log("Run refresh list items--------------------------");
         ClearShowingObjects();
         ResetRectHeightCalculate();
         DataManager.Instance.TraverseAllWallets(ShowAllListItems);

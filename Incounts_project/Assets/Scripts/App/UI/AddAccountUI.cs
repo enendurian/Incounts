@@ -230,6 +230,7 @@ public class AddAccountUI : MonoBehaviour
         }
         anim.Play("confirmed");
         EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletData);
+        EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletList);
         EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshAccountList);
         StartCoroutine(DelayActiveAndSetClosed());
     }
