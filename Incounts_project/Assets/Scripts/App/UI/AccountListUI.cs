@@ -46,11 +46,10 @@ public class AccountListUI : UIPagesBase
     /// </summary>
     public void RefreshListItems()
     {
-        Debug.Log("Run refresh list items--------------------------");
         ClearShowingObjects();
         ResetRectHeightCalculate();
-        DataManager.Instance.TraverseAllRecords(ShowAllListItems);
         RefreshBalanceText();
+        DataManager.Instance.TraverseAllRecords(ShowAllListItems);
     }
 
     private void ShowAllListItems(SqliteDataReader reader)
@@ -58,6 +57,8 @@ public class AccountListUI : UIPagesBase
         int lastday = -1;
         decimal temp_income = 0;
         decimal temp_outgo = 0;
+        decimal temp_income_sum = 0;
+        decimal temp_outgo_sum = 0;
         ItemDate temp_dateItem = null;
         emptyPanel.gameObject.SetActive(false);
         int tempDataCount = 0;
@@ -73,6 +74,8 @@ public class AccountListUI : UIPagesBase
                     temp_dateItem.sumAccountText.text = $"<color={BasicConsts.incomeColor}>+{temp_income}</color> <color={BasicConsts.outgoColor}>-{temp_outgo}</color>";
                 }
                 temp_dateItem = ShowNewDay(dayRead);
+                temp_income_sum += temp_income;
+                temp_outgo_sum += temp_outgo;
                 temp_income = 0;
                 temp_outgo = 0;
             }
@@ -92,6 +95,8 @@ public class AccountListUI : UIPagesBase
         if (temp_dateItem != null)
         {
             temp_dateItem.sumAccountText.text = $"<color={BasicConsts.incomeColor}>+{temp_income}</color> <color={BasicConsts.outgoColor}>-{temp_outgo}</color>";
+            temp_income_sum += temp_income;
+            temp_outgo_sum += temp_outgo;
         }
         else
         {
@@ -99,6 +104,7 @@ public class AccountListUI : UIPagesBase
             emptyPanel.gameObject.SetActive(true);
         }
         rectContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeightCalculate);
+        mainBalanceText.text += $"    ±¾ÔÂ£º<color={BasicConsts.incomeColor}>+{temp_income_sum}</color> <color={BasicConsts.outgoColor}>-{temp_outgo_sum}</color>";
     }
 
     private ItemDate ShowNewDay(int day)

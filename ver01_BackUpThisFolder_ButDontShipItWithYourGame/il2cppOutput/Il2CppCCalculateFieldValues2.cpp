@@ -9692,35 +9692,37 @@ struct UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429  : public MonoBehav
 	CanvasGroup_t048C1461B14628CFAEBE6E7353093ADB04EBC094* ___mainCanvasGroup_5;
 	// System.Boolean UIPagesBase::isShowing
 	bool ___isShowing_6;
+	// System.Boolean UIPagesBase::isDirty
+	bool ___isDirty_7;
 };
 
 // AccountListUI
 struct AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357  : public UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429
 {
 	// UnityEngine.GameObject AccountListUI::itemDate
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemDate_7;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemDate_8;
 	// UnityEngine.GameObject AccountListUI::itemAccounts
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemAccounts_8;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemAccounts_9;
 	// UnityEngine.RectTransform AccountListUI::rectContent
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectContent_9;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectContent_10;
 	// UnityEngine.RectTransform AccountListUI::rectPoolParent
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectPoolParent_10;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectPoolParent_11;
 	// UnityEngine.RectTransform AccountListUI::emptyPanel
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___emptyPanel_11;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___emptyPanel_12;
 	// UnityEngine.UI.Text AccountListUI::yearText
-	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___yearText_12;
+	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___yearText_13;
 	// UnityEngine.UI.Text AccountListUI::monthText
-	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___monthText_13;
+	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___monthText_14;
 	// UnityEngine.UI.Text AccountListUI::mainBalanceText
-	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___mainBalanceText_14;
+	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___mainBalanceText_15;
 	// System.Int32 AccountListUI::rectHeightCalculate
-	int32_t ___rectHeightCalculate_15;
+	int32_t ___rectHeightCalculate_16;
 	// System.Collections.Generic.List`1<UnityEngine.GameObject> AccountListUI::objectShowing
-	List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* ___objectShowing_16;
+	List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* ___objectShowing_17;
 	// System.Collections.Generic.Stack`1<UnityEngine.GameObject> AccountListUI::accountPool
-	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___accountPool_17;
+	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___accountPool_18;
 	// System.Collections.Generic.Stack`1<UnityEngine.GameObject> AccountListUI::datePool
-	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___datePool_18;
+	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___datePool_19;
 };
 
 // UnityEngine.ResourceManagement.Util.DelayedActionManager
@@ -9772,23 +9774,23 @@ struct MonoBehaviourCallbackHooks_tC738EC3E1125A7ABB173D0F9F8B555238CA7615F  : p
 struct WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2  : public UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429
 {
 	// UnityEngine.GameObject WalletListUI::itemWallet
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemWallet_7;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemWallet_8;
 	// UnityEngine.RectTransform WalletListUI::walletPanel
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___walletPanel_8;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___walletPanel_9;
 	// UnityEngine.RectTransform WalletListUI::rectContent
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectContent_9;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectContent_10;
 	// UnityEngine.RectTransform WalletListUI::rectPoolParent
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectPoolParent_10;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectPoolParent_11;
 	// UnityEngine.RectTransform WalletListUI::emptyPanel
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___emptyPanel_11;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___emptyPanel_12;
 	// UnityEngine.UI.Text WalletListUI::mainBalanceText
-	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___mainBalanceText_12;
+	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___mainBalanceText_13;
 	// System.Int32 WalletListUI::rectHeightCalculate
-	int32_t ___rectHeightCalculate_13;
+	int32_t ___rectHeightCalculate_14;
 	// System.Collections.Generic.List`1<UnityEngine.GameObject> WalletListUI::objectShowing
-	List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* ___objectShowing_14;
+	List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* ___objectShowing_15;
 	// System.Collections.Generic.Stack`1<UnityEngine.GameObject> WalletListUI::walletPool
-	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___walletPool_15;
+	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___walletPool_16;
 };
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -10673,7 +10675,7 @@ IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable6403[3] =
 	static_cast<int32_t>(offsetof(WalletDataItem_tED3CA0E88D62DABB05AD9CF40A3B22B34F66F910, ___index_0)),static_cast<int32_t>(offsetof(WalletDataItem_tED3CA0E88D62DABB05AD9CF40A3B22B34F66F910, ___name_1)),static_cast<int32_t>(offsetof(WalletDataItem_tED3CA0E88D62DABB05AD9CF40A3B22B34F66F910, ___balance_2)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable6404[12] = 
 {
-	static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___itemDate_7)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___itemAccounts_8)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___rectContent_9)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___rectPoolParent_10)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___emptyPanel_11)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___yearText_12)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___monthText_13)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___mainBalanceText_14)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___rectHeightCalculate_15)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___objectShowing_16)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___accountPool_17)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___datePool_18)),};
+	static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___itemDate_8)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___itemAccounts_9)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___rectContent_10)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___rectPoolParent_11)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___emptyPanel_12)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___yearText_13)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___monthText_14)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___mainBalanceText_15)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___rectHeightCalculate_16)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___objectShowing_17)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___accountPool_18)),static_cast<int32_t>(offsetof(AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357, ___datePool_19)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable6405[3] = 
 {
 	static_cast<int32_t>(offsetof(U3CDelayActiveAndSetClosedU3Ed__39_tA6216EB04B723FB2BA651488DDD67B6BB98C6E02, ___U3CU3E1__state_0)),static_cast<int32_t>(offsetof(U3CDelayActiveAndSetClosedU3Ed__39_tA6216EB04B723FB2BA651488DDD67B6BB98C6E02, ___U3CU3E2__current_1)),static_cast<int32_t>(offsetof(U3CDelayActiveAndSetClosedU3Ed__39_tA6216EB04B723FB2BA651488DDD67B6BB98C6E02, ___U3CU3E4__this_2)),};
@@ -10728,12 +10730,12 @@ IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable6422[7] =
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable6423[3] = 
 {
 	static_cast<int32_t>(sizeof(RuntimeObject)),0,0,};
-IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable6424[3] = 
+IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable6424[4] = 
 {
-	static_cast<int32_t>(offsetof(UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429, ___mainPanel_4)),static_cast<int32_t>(offsetof(UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429, ___mainCanvasGroup_5)),static_cast<int32_t>(offsetof(UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429, ___isShowing_6)),};
+	static_cast<int32_t>(offsetof(UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429, ___mainPanel_4)),static_cast<int32_t>(offsetof(UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429, ___mainCanvasGroup_5)),static_cast<int32_t>(offsetof(UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429, ___isShowing_6)),static_cast<int32_t>(offsetof(UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429, ___isDirty_7)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable6425[9] = 
 {
-	static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___itemWallet_7)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___walletPanel_8)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___rectContent_9)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___rectPoolParent_10)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___emptyPanel_11)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___mainBalanceText_12)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___rectHeightCalculate_13)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___objectShowing_14)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___walletPool_15)),};
+	static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___itemWallet_8)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___walletPanel_9)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___rectContent_10)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___rectPoolParent_11)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___emptyPanel_12)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___mainBalanceText_13)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___rectHeightCalculate_14)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___objectShowing_15)),static_cast<int32_t>(offsetof(WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2, ___walletPool_16)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable6426[10] = 
 {
 	static_cast<int32_t>(offsetof(U3CObjectMoveIEU3Ed__3_t2D23AA6C77D8184665776DF51BEF58D9A6D8ADCA, ___U3CU3E1__state_0)),static_cast<int32_t>(offsetof(U3CObjectMoveIEU3Ed__3_t2D23AA6C77D8184665776DF51BEF58D9A6D8ADCA, ___U3CU3E2__current_1)),static_cast<int32_t>(offsetof(U3CObjectMoveIEU3Ed__3_t2D23AA6C77D8184665776DF51BEF58D9A6D8ADCA, ___time_2)),static_cast<int32_t>(offsetof(U3CObjectMoveIEU3Ed__3_t2D23AA6C77D8184665776DF51BEF58D9A6D8ADCA, ___inch_3)),static_cast<int32_t>(offsetof(U3CObjectMoveIEU3Ed__3_t2D23AA6C77D8184665776DF51BEF58D9A6D8ADCA, ___t_4)),static_cast<int32_t>(offsetof(U3CObjectMoveIEU3Ed__3_t2D23AA6C77D8184665776DF51BEF58D9A6D8ADCA, ___oriPos_5)),static_cast<int32_t>(offsetof(U3CObjectMoveIEU3Ed__3_t2D23AA6C77D8184665776DF51BEF58D9A6D8ADCA, ___pos_6)),static_cast<int32_t>(offsetof(U3CObjectMoveIEU3Ed__3_t2D23AA6C77D8184665776DF51BEF58D9A6D8ADCA, ___oriQua_7)),static_cast<int32_t>(offsetof(U3CObjectMoveIEU3Ed__3_t2D23AA6C77D8184665776DF51BEF58D9A6D8ADCA, ___qua_8)),static_cast<int32_t>(offsetof(U3CObjectMoveIEU3Ed__3_t2D23AA6C77D8184665776DF51BEF58D9A6D8ADCA, ___U3CcountU3E5__2_9)),};

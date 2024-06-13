@@ -21536,6 +21536,8 @@ struct UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429  : public MonoBehav
 	CanvasGroup_t048C1461B14628CFAEBE6E7353093ADB04EBC094* ___mainCanvasGroup_5;
 	// System.Boolean UIPagesBase::isShowing
 	bool ___isShowing_6;
+	// System.Boolean UIPagesBase::isDirty
+	bool ___isDirty_7;
 };
 
 // UnityEngine.Rendering.Volume
@@ -21578,29 +21580,29 @@ struct DropdownItem_t3D307172264EF209B266052B655D7D4314E660F8  : public MonoBeha
 struct AccountListUI_tF20C7912CF5872D985B86F1126D37FB0A798E357  : public UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429
 {
 	// UnityEngine.GameObject AccountListUI::itemDate
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemDate_7;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemDate_8;
 	// UnityEngine.GameObject AccountListUI::itemAccounts
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemAccounts_8;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemAccounts_9;
 	// UnityEngine.RectTransform AccountListUI::rectContent
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectContent_9;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectContent_10;
 	// UnityEngine.RectTransform AccountListUI::rectPoolParent
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectPoolParent_10;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectPoolParent_11;
 	// UnityEngine.RectTransform AccountListUI::emptyPanel
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___emptyPanel_11;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___emptyPanel_12;
 	// UnityEngine.UI.Text AccountListUI::yearText
-	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___yearText_12;
+	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___yearText_13;
 	// UnityEngine.UI.Text AccountListUI::monthText
-	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___monthText_13;
+	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___monthText_14;
 	// UnityEngine.UI.Text AccountListUI::mainBalanceText
-	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___mainBalanceText_14;
+	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___mainBalanceText_15;
 	// System.Int32 AccountListUI::rectHeightCalculate
-	int32_t ___rectHeightCalculate_15;
+	int32_t ___rectHeightCalculate_16;
 	// System.Collections.Generic.List`1<UnityEngine.GameObject> AccountListUI::objectShowing
-	List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* ___objectShowing_16;
+	List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* ___objectShowing_17;
 	// System.Collections.Generic.Stack`1<UnityEngine.GameObject> AccountListUI::accountPool
-	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___accountPool_17;
+	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___accountPool_18;
 	// System.Collections.Generic.Stack`1<UnityEngine.GameObject> AccountListUI::datePool
-	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___datePool_18;
+	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___datePool_19;
 };
 
 // UnityEngine.UI.AspectRatioFitter
@@ -22351,23 +22353,23 @@ struct ToggleGroup_tF2E6FE7D4B17BDBF82462715CFB57C4FDE0A2A2C  : public UIBehavio
 struct WalletListUI_t5F9FC4A51051C4462859FE751CFBE7F7F633EBB2  : public UIPagesBase_t179B1E74F48F9F8E029A624CCE7B6851CC84F429
 {
 	// UnityEngine.GameObject WalletListUI::itemWallet
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemWallet_7;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___itemWallet_8;
 	// UnityEngine.RectTransform WalletListUI::walletPanel
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___walletPanel_8;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___walletPanel_9;
 	// UnityEngine.RectTransform WalletListUI::rectContent
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectContent_9;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectContent_10;
 	// UnityEngine.RectTransform WalletListUI::rectPoolParent
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectPoolParent_10;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___rectPoolParent_11;
 	// UnityEngine.RectTransform WalletListUI::emptyPanel
-	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___emptyPanel_11;
+	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* ___emptyPanel_12;
 	// UnityEngine.UI.Text WalletListUI::mainBalanceText
-	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___mainBalanceText_12;
+	Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* ___mainBalanceText_13;
 	// System.Int32 WalletListUI::rectHeightCalculate
-	int32_t ___rectHeightCalculate_13;
+	int32_t ___rectHeightCalculate_14;
 	// System.Collections.Generic.List`1<UnityEngine.GameObject> WalletListUI::objectShowing
-	List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* ___objectShowing_14;
+	List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* ___objectShowing_15;
 	// System.Collections.Generic.Stack`1<UnityEngine.GameObject> WalletListUI::walletPool
-	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___walletPool_15;
+	Stack_1_tEDA6555F162AE2CC5394B19622F8A10CD078C7AF* ___walletPool_16;
 };
 
 // UnityEngine.UI.Button

@@ -13,7 +13,7 @@ public class UIPagesBase : MonoBehaviour
     {
         mainPanel.gameObject.SetActive(true);
         isShowing = true;
-        AnimManager.instance.CanvasGroupAlphaChange(mainCanvasGroup, 0, 1, 0.2f, 1);
+        //AnimManager.instance.CanvasGroupAlphaChange(mainCanvasGroup, 0, 1, 0.2f, 1);
         if (isDirty)
         {
             RefreshAllUI();
@@ -24,8 +24,9 @@ public class UIPagesBase : MonoBehaviour
     public void ClosePageUI()
     {
         isShowing = false;
-        AnimManager.instance.CanvasGroupAlphaChange(mainCanvasGroup, 1, 0, 0.2f, 1);
-        AnimManager.instance.DelayActive(mainPanel.gameObject, false, 0.3f);
+        mainPanel.gameObject.SetActive(false);
+        //AnimManager.instance.CanvasGroupAlphaChange(mainCanvasGroup, 1, 0, 0.2f, 1);
+        //AnimManager.instance.DelayActive(mainPanel.gameObject, false, 0.3f);
     }
 
     public virtual void RefreshAllUI() { }

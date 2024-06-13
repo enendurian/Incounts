@@ -44,7 +44,6 @@ public class WalletListUI : UIPagesBase
 
     public void RefreshListItems()
     {
-        Debug.Log("Run refresh list items--------------------------");
         ClearShowingObjects();
         ResetRectHeightCalculate();
         DataManager.Instance.TraverseAllWallets(ShowAllListItems);
