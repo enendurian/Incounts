@@ -581,7 +581,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 82259ec5c1400354cbe8f0168e839c50, type: 3}
     m_FontSize: 30
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
@@ -5569,6 +5569,7 @@ MonoBehaviour:
   rectContent: {fileID: 1736520533}
   rectPoolParent: {fileID: 1811155610}
   emptyPanel: {fileID: 170610676}
+  scrollRect: {fileID: 362745123}
   yearText: {fileID: 2105905814}
   monthText: {fileID: 1404837179}
   mainBalanceText: {fileID: 5999948043173795706}
@@ -7689,7 +7690,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 82259ec5c1400354cbe8f0168e839c50, type: 3}
     m_FontSize: 30
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40

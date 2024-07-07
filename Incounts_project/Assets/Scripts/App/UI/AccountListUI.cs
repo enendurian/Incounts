@@ -15,6 +15,7 @@ public class AccountListUI : UIPagesBase
     public RectTransform rectContent;
     public RectTransform rectPoolParent;
     public RectTransform emptyPanel;
+    public ScrollRect scrollRect;
     public Text yearText;
     public Text monthText;
     public Text mainBalanceText;
@@ -48,7 +49,6 @@ public class AccountListUI : UIPagesBase
     {
         ClearShowingObjects();
         ResetRectHeightCalculate();
-        RefreshBalanceText();
         DataManager.Instance.TraverseAllRecords(ShowAllListItems);
     }
 
@@ -104,7 +104,12 @@ public class AccountListUI : UIPagesBase
             emptyPanel.gameObject.SetActive(true);
         }
         rectContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeightCalculate);
-        mainBalanceText.text += $"    本月：<color={BasicConsts.incomeColor}>+{temp_income_sum}</color> <color={BasicConsts.outgoColor}>-{temp_outgo_sum}</color>";
+        decimal mainChange = temp_income_sum - temp_outgo_sum;
+        string mainChangeColor = mainChange > 0 ? BasicConsts.incomeColor : BasicConsts.outgoColor;
+        mainBalanceText.text = $"本月结算：<color={BasicConsts.incomeColor}>+{temp_income_sum}</color> <color={BasicConsts.outgoColor}>-{temp_outgo_sum}</color> = <color={mainChangeColor}>{mainChange}</color>";
+        Vector2 normalizedPosition = scrollRect.normalizedPosition;
+        normalizedPosition.y = 0; // 滚动到底部（注意这里的值可能需要根据你的具体布局进行调整）
+        scrollRect.normalizedPosition = normalizedPosition;
     }
 
     private ItemDate ShowNewDay(int day)
@@ -146,13 +151,6 @@ public class AccountListUI : UIPagesBase
     {
         yearText.text = $"{DataManager.Instance.currentShowingYear}";
         monthText.text = DataManager.Instance.currentShowingMonth.ToString("D2");
-    }
-
-    public void RefreshBalanceText()
-    {
-        if (!isShowing)
-            return;
-        mainBalanceText.text = $"总余额：{DataManager.Instance.GetWalletRemains()}";
     }
 
     private void OnDestroy()

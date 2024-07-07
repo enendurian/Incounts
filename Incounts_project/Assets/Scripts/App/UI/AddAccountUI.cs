@@ -61,7 +61,7 @@ public class AddAccountUI : MonoBehaviour
         {
             InitUI();
         }
-        mainBalanceText.text = $"总余额：{DataManager.Instance.GetWalletRemains()}";
+        mainBalanceText.text = $"当前总余额：{DataManager.Instance.GetWalletRemains()}";
         RefreshInOutText();
         RefreshTypeText();
         UIManager.Instance.SetUIStatus(UIStatus.IWindowOpened);
