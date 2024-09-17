@@ -111,7 +111,7 @@ public class ItemWallet : MonoBehaviour
         DataManager.Instance.ShowDetailsOfWallet(primaryKey, (reader) => 
         {
             decimal originalBalance = (decimal)reader.GetDouble(2);
-            DataManager.Instance.AddAccount($"删除钱包：{reader.GetString(1)}", DataManager.Instance.today, 0, originalBalance, 0, "0_0", "删除钱包，清空账目", primaryKey);
+            DataManager.Instance.AddAccount($"删除钱包：{reader.GetString(1)}", DataManager.Instance.today, 0, originalBalance, (int)AccountTypes.Others, "0_0", "删除钱包，清空账目", primaryKey);
             DataManager.Instance.UpdateWallet(-originalBalance, primaryKey);
             EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletList);
             EventCenter.TriggerEvent(AppConst.EventNamesConst.RefreshWalletData);

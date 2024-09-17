@@ -48,7 +48,11 @@ public class UIManager : MonoBehaviour
 
     public void OnPageButtonClick(int btnIndx)
     {
-        if (_currentStatus != UIStatus.NoWindow) return;
+        if (_currentStatus != UIStatus.NoWindow)
+        {
+            TipManager.Instance.AddTipToShow("先关闭当前窗口");
+            return;
+        }
         if (btnIndx == currentPageIndex) return;
 
         if (currentPageIndex >= 0 && currentPageIndex < pages.Count)

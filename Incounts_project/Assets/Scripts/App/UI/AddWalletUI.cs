@@ -84,7 +84,7 @@ public class AddWalletUI : MonoBehaviour
             {
                 decimal gap = balancef - originalBalance;
                 int isOut = gap > 0 ? 1 : 0;
-                DataManager.Instance.AddAccount($"强制同步钱包：{walletName.text}", DataManager.Instance.today, isOut, gap > 0 ? gap : -gap, 8, "8_0", "强制同步钱包，用以遗漏记账时快捷将数据同步", pKey);
+                DataManager.Instance.AddAccount($"强制同步钱包：{walletName.text}", DataManager.Instance.today, isOut, gap > 0 ? gap : -gap, (int)AppConst.AccountTypes.Others, "0_0", "强制同步钱包，用以遗漏记账时快捷将数据同步", pKey);
             }
         }
         else

@@ -215,6 +215,7 @@ public class DataManager
     //在当前月份的表中插入记账记录。这里的方法只执行sql语句和数据库管理。一些界面更新或者数据同步，请不要写在这里。
     public void AddAccount(string title, int day, int isOut, decimal count, int accountType, string iconId, string message, int walletId)
     {
+        Debug.Log($"The account type is  {accountType}");
         int index = _sqliteManager.GetMaxInt(currentDateTable, TConsts.aIndex);
         index++;
         string[] values = new string[] { $"{index}", $"'{title}'", $"{day}", $"{isOut}", $"{count}", $"{accountType}", $"'{iconId}'", $"'{message}'", $"{walletId}" };
